@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plants</title>
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <style>
+        .social-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+        .social-icon:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        .plant-icon {
+            top: -20px; /* Adjusted to avoid overlap */
+        }
+        @media (min-width: 1024px) {
+            .full.relative {
+                display: flex;
+                justify-content: flex-end;
+                align-items: flex-start;
+            }
+            .full.relative img {
+                margin-right: 20px;
+            }
+        }
+        @keyframes moving {
+            50% {
+                transform: translateY(-1rem);
+            }
+        }
+        .moving {
+            animation: moving 3s linear infinite;
+        }
+        .hover-stop:hover {
+            animation-play-state: paused;
+        }
+        .hover-yellow:hover {
+            color: #fde68a; /* yellow-250 */
+        }
+        .blob {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(4, 120, 87, 0.4); /* green-700 with 40% opacity */
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            filter: blur(3xl);
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: #fde68a; /* yellow-500 */
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .swiper-slide {
+            transition: transform 0.3s ease-in-out;
+        }
+        .swiper-slide-active {
+            transform: scale(1.05);
+        }
+        .scroll-up {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #fde68a; /* yellow-500 */
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .scroll-up.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <header id="navbar" class="bg-green-950 fixed w-full top-0 left-0 z-50" data-aos="fade-down">
+        <nav class="container flex items-center justify-between h-16 sm:h-20">
+            <!-- Indoor Plants -->
+            <div class="font-Lobster sm:text-2xl" data-aos="fade-right">Indoor Plants</div>
+            <div id="nav-menu" class="absolute top-0 left-[-100%] min-h-[80vh] w-full bg-green-950/80 backdrop-blur-sm flex items-center justify-center duration-300 overflow-hidden lg:static lg:min-h-fit lg:bg-transparent lg:w-auto">
+                <ul class="flex flex-col items-center gap-8 font-Jost lg:flex-row">
+                    <li data-aos="fade-down">
+                        <a href="" class="nav-link">Home</a>
+                    </li>
+                    <li data-aos="fade-down">
+                        <a href="#about" class="nav-link">About</a>
+                    </li>
+                    <li data-aos="fade-down">
+                        <a href="#popular" class="nav-link">Popular</a>
+                    </li>
+                    <li data-aos="fade-down">
+                        <a href="#review" class="nav-link">Review</a>
+                    </li>
+                </ul>
+                <div class="absolute bottom-0 right-10 opacity-90 lg:hidden">
+                    <img src="img/leaf-1.png" alt="leaf" class="w-32">
+                </div>
+                <div class="absolute top-5 rotate-90 left-5 opacity-90 lg:hidden">
+                    <img src="img/leaf-2.png" alt="leaf" class="w-32">
+                </div>
+            </div>
+            <div id="menu-icon" class="absolute top-4 right-4 text-white text-3xl cursor-pointer z-20" data-aos="fade-left">
+                <i class="ri-menu-4-line" id="hamburger"></i>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section id="home" data-aos="fade-right">
+            <div class="container">
+                <div class="flex flex-col items-center gap-5 lg:flex-row">
+                    <div class="w-full space-y-5 lg:w-1/2">
+                        <h1>
+                            <span class="text-yellow-600">Plants</span> make a 
+                            <br>
+                            Positive
+                            <span class="text-yellow-500">impact</span> on 
+                            <br>
+                            your environment
+                        </h1>
+                        <p class="text-slate-200 font-Lobster">
+                            Indoor plants not only enhance the aesthetic appeal of your home 
+                            <br>
+                            but also improve air quality, reduce stress, and boost your mood. 
+                            <br>
+                            By incorporating a variety of plants 
+                            <br>
+                            into your living space, 
+                            <br>
+                            you can create a healthier and more vibrant environment.
+                        </p>
+                        <div class="flex flex-col gap-2 sm:flex-row sm:gap-4 lg:pt-5 xl:pt-10">
+                            <button class="btn text-white px-3 py-1 rounded flex sm:flex-row items-center mr-2">
+                                <i class="ri-leaf-line mr-2"></i> Shop Now
+                            </button>
+                            <button class="btn btn_outline text-white px-3 py-1 rounded flex items-center">
+                                <i class="ri-leaf-line mr-2"></i> Know More
+                            </button>
+                        </div>
+                        <p>
+                            You will get 30 days free trial
+                        </p>
+                        <div class="mt-4 flex space-x-4">
+                            <i class="ri-facebook-fill text-3xl text-blue-600 cursor-pointer social-icon"></i>
+                            <i class="ri-instagram-line text-3xl text-pink-600 cursor-pointer social-icon"></i>
+                            <i class="ri-twitter-fill text-3xl text-blue-400 cursor-pointer social-icon"></i>
+                            <i class="ri-whatsapp-line text-3xl text-green-500 cursor-pointer social-icon"></i>
+                        </div>
+                    </div>
+                    <div class="w-full relative lg:w-1/2">
+                        <img src="img/home.png" alt="home_img">
+                        <!-- leaf -->
+                        <div class="absolute -top-5 right-0 opacity-30 moving hover-stop hover-yellow">
+                            <i class="ri-leaf-line text-6xl text-yellow-500"></i>
+                        </div>
+                        <!-- flower -->
+                        <div class="absolute bottom-0 left-0 opacity-30 moving hover-stop hover-yellow">
+                            <i class="ri-flower-line text-6xl text-yellow-500"></i>
+                        </div>
+                        <!-- blob -->
+                        <div class="blob"></div>
+                        <!-- plant -->
+                        <div class="absolute plant-icon -left-5 opacity-30 moving hover-stop hover-yellow">
+                            <i class="ri-plant-line text-6xl text-yellow-500"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <div class="bg-white text-green-900 py-20" data-aos="fade-left">
+            <div class="container w-full">
+                <!-- Fast Delivery Card -->
+                <div class="border border-green-900 py-5 cursor-pointer rounded-md hover:shadow-2xl hover:translate-y-1 duration-300">
+                    <div class="flex items-center gap-5">
+                        <i class="ri-truck-line text-3xl md:text-4xl xl:text-5xl"></i>
+                        <p class="md:text-lg font-bold">
+                            Fast <br>
+                            Delivery
+                        </p>
+                    </div>
+                    <p class="font-Lobster">
+                        We offer fast delivery to your doorstep so you can 
+                        enjoy your new plants as soon as possible.
+                    </p>
+                </div>
+
+                <!-- Great Service Card -->
+                <div class="border border-green-900 py-5 cursor-pointer rounded-md hover:shadow-2xl hover:translate-y-1 duration-300 mt-8">
+                    <div class="flex items-center gap-5">
+                        <i class="ri-service-line text-3xl md:text-4xl xl:text-5xl"></i>
+                        <p class="md:text-lg font-bold">
+                            Great <br>
+                            Service
+                        </p>
+                    </div>
+                    <p class="font-Lobster">
+                        Our team is dedicated to providing you with the best service and support for all your plant needs.
+                    </p>
+                </div>
+
+                <!-- Affordable Prices Card -->
+                <div class="border border-green-900 py-5 cursor-pointer rounded-md hover:shadow-2xl hover:translate-y-1 duration-300 mt-8">
+                    <div class="flex items-center gap-5">
+                        <i class="ri-money-dollar-circle-line text-3xl md:text-4xl xl:text-5xl"></i>
+                        <p class="md:text-lg font-bold">
+                            Affordable <br>
+                            Prices
+                        </p>
+                    </div>
+                    <p class="font-Lobster">
+                        We offer competitive prices on all our plants to ensure you get the best value for your money.
+                    </p>
+                </div>
+
+                <!-- Genuine Products Card -->
+                <div class="border border-green-900 py-5 cursor-pointer rounded-md hover:shadow-2xl hover:translate-y-1 duration-300 mt-8">
+                    <div class="flex items-center gap-5">
+                        <i class="ri-shield-check-line text-3xl md:text-4xl xl:text-5xl"></i>
+                        <p class="md:text-lg font-bold">
+                            Genuine <br>
+                            Products
+                        </p>
+                    </div>
+                    <p class="font-Lobster">
+                        We guarantee that all our plants are genuine and of the highest quality.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <section id="about" class="bg-green-950 text-white py-20 relative" data-aos="zoom-in">
+            <div class="absolute top-0 right-0 opacity-50 w-48 h-48">
+                <img src="img/leaf-3.png" alt="leaf" class="w-full h-full object-cover">
+            </div>
+            <div class="container">
+                <div class="flex flex-col items-center gap-10">
+                    <h2 class="text-center text-3xl font-Lobster">About Us</h2>
+                    <p class="text-center text-slate-200">
+                        We are a team of plant enthusiasts who are passionate about 
+                        <br>
+                        bringing the beauty of nature into your home. 
+                        <br>
+                        Our mission is to help you create a healthier and more 
+                        <br>
+                        vibrant living space by providing you with a wide selection 
+                        <br>
+                        of indoor plants that are easy to care for and will thrive 
+                        <br>
+                        in your home environment.
+                    </p>
+                    <div class="flex flex-col gap-5 sm:flex-row sm:gap-10">
+                        <div class="flex flex-col items-center gap-5 sm:w-1/2">
+                            <img src="img/plant-1.png" alt="about-1" class="w-full rounded-lg">
+                            <h3 class="text-xl font-Lobster text-yellow-500">Our Mission</h3>
+                            <p class="text-slate-200 text-center">
+                                Our mission is to help you create a healthier and more 
+                                <br>
+                                vibrant living space by providing you with a wide selection 
+                                <br>
+                                of indoor plants that are easy to care for and will thrive 
+                                <br>
+                                in your home environment.
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-center gap-5 sm:w-1/2">
+                            <img src="img/plant-2.png" alt="about-2" class="w-full rounded-lg">
+                            <h3 class="text-xl font-Lobster text-yellow-500">Our Vision</h3>
+                            <p class="text-slate-200 text-center">
+                                Our vision is to make every home a green oasis by 
+                                <br>
+                                providing high-quality plants and exceptional customer service.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-5 sm:flex-row sm:gap-10">
+                        <div class="flex flex-col items-center gap-5 sm:w-1/2">
+                            <img src="img/plant-3.png" alt="about-3" class="w-full rounded-lg">
+                            <h3 class="text-xl font-Lobster text-yellow-500">Our Values</h3>
+                            <p class="text-slate-200 text-center">
+                                We value sustainability, quality, and customer satisfaction. 
+                                <br>
+                                We strive to provide the best products and services to our customers.
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-center gap-5 sm:w-1/2">
+                            <img src="img/plant-4.png" alt="about-4" class="w-full rounded-lg">
+                            <h3 class="text-xl font-Lobster text-yellow-500">Our Team</h3>
+                            <p class="text-slate-200 text-center">
+                                Our team is made up of plant experts who are passionate 
+                                <br>
+                                about helping you find the perfect plants for your home.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="popular" class="bg-green-900 py-20" data-aos="flip-up">
+            <div class="container">
+                <div class="flex flex-col items-center gap-3 text-center mb-10">
+                    <h2 class="title text-3xl font-Lobster text-white">Your Choice Plants</h2>
+                    <p class="max-w-2xl text-slate-200">Follow Instructions for More</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+                    <div class="popular_card bg-green-950 p-10 rounded-md relative hover:top-6 transition-all duration-300">
+                        <img src="img/cart-1.png" alt="popular_image" class="w-56 mx-auto mb-5">
+                        <p class="italic text-slate-200">Nephrolepis Exaltata</p>
+                        <h3 class="text-2xl font-Lobster text-yellow-500">Boston Fern</h3>
+                        <div class="text-yellow-500 text-xs py-3">
+                            <i class="ri-star-fill"></i> 
+                            <i class="ri-star-fill"></i> 
+                            <i class="ri-star-half-fill"></i> 
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <p class="text-white">$5</p>
+                            <button class="btn text-white px-3 py-1 rounded flex items-center bg-yellow-500 hover:bg-yellow-600 ml-2">
+                                <i class="ri-shopping-cart-2-line mr-2"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                    <div class="popular_card bg-green-950 p-10 rounded-md relative hover:top-6 transition-all duration-300">
+                        <img src="img/cart-2.png" alt="popular_image" class="w-56 mx-auto mb-5">
+                        <p class="italic text-slate-200">Sansevieria Trifasciata</p>
+                        <h3 class="text-2xl font-Lobster text-yellow-500">Snake Plant</h3>
+                        <div class="text-yellow-500 text-xs py-3">
+                            <i class="ri-star-fill"></i> 
+                            <i class="ri-star-fill"></i> 
+                            <i class="ri-star-fill"></i> 
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <p class="text-white">$7</p>
+                            <button class="btn text-white px-3 py-1 rounded flex items-center bg-yellow-500 hover:bg-yellow-600 ml-2">
+                                <i class="ri-shopping-cart-2-line mr-2"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                    <div class="popular_card bg-green-950 p-10 rounded-md relative hover:top-6 transition-all duration-300">
+                        <img src="img/cart-3.png" alt="popular_image" class="w-56 mx-auto mb-5">
+                        <p class="italic text-slate-200">Monstera Deliciosa</p>
+                        <h3 class="text-2xl font-Lobster text-yellow-500">Swiss Cheese Plant</h3>
+                        <div class="text-yellow-500 text-xs py-3">
+                            <i class="ri-star-fill"></i> 
+                            <i class="ri-star-fill"></i> 
+                            <i class="ri-star-fill"></i> 
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <p class="text-white">$10</p>
+                            <button class="btn text-white px-3 py-1 rounded flex items-center bg-yellow-500 hover:bg-yellow-600 ml-2">
+                                <i class="ri-shopping-cart-2-line mr-2"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                    <div class="popular_card bg-green-950 p-10 rounded-md relative hover:top-6 transition-all duration-300">
+                        <img src="img/cart-4.png" alt="popular_image" class="w-56 mx-auto mb-5">
+                        <p class="italic text-slate-200">Ficus Elastica</p>
+                        <h3 class="text-2xl font-Lobster text-yellow-500">Rubber Plant</h3>
+                        <div class="text-yellow-500 text-xs py-3">
+                            <i class="ri-star-fill"></i> 
+                            <i class="ri-star-fill"></i> 
+                            <i class="ri-star-fill"></i> 
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <p class="text-white">$8</p>
+                            <button class="btn text-white px-3 py-1 rounded flex items-center bg-yellow-500 hover:bg-yellow-600 ml-2">
+                                <i class="ri-shopping-cart-2-line mr-2"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="review" class="bg-white py-20" data-aos="fade-up">
+            <div class="container">
+                <div class="flex flex-col items-center gap-3 text-center mb-10">
+                    <h2 class="title text-3xl font-Lobster text-green-900">Customer Reviews</h2>
+                    <p class="max-w-2xl text-slate-600">See what our customers have to say about our plants.</p>
+                </div>
+                <div class="swiper-container relative">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="popular_card bg-green-950 p-10 rounded-md relative hover:top-6 transition-all duration-300">
+                                <div class="flex flex-col items-center gap-5">
+                                    <img src="img/review-1.jpg" alt="review-1" class="w-32 h-32 rounded-full">
+                                    <p class="text-slate-200">"The plants are amazing! They have transformed my living space."</p>
+                                    <h3 class="text-xl font-Lobster text-yellow-500">John Doe</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="popular_card bg-green-950 p-10 rounded-md relative hover:top-6 transition-all duration-300">
+                                <div class="flex flex-col items-center gap-5">
+                                    <img src="img/review-2.jpg" alt="review-2" class="w-32 h-32 rounded-full">
+                                    <p class="text-slate-200">"Excellent service and fast delivery. Highly recommend!"</p>
+                                    <h3 class="text-xl font-Lobster text-yellow-500">Jane Smith</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="popular_card bg-green-950 p-10 rounded-md relative hover:top-6 transition-all duration-300">
+                                <div class="flex flex-col items-center gap-5">
+                                    <img src="img/review-3.jpg" alt="review-3" class="w-32 h-32 rounded-full">
+                                    <p class="text-slate-200">"The quality of the plants is top-notch. Very satisfied."</p>
+                                    <h3 class="text-xl font-Lobster text-yellow-500">Emily Johnson</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="popular_card bg-green-950 p-10 rounded-md relative hover:top-6 transition-all duration-300">
+                                <div class="flex flex-col items-center gap-5">
+                                    <img src="img/review-4.jpg" alt="review-4" class="w-32 h-32 rounded-full">
+                                    <p class="text-slate-200">"Great prices and beautiful plants. Will buy again."</p>
+                                    <h3 class="text-xl font-Lobster text-yellow-500">Michael Brown</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                    <!-- Add Navigation -->
+                    <div class="swiper-button-next text-yellow-500"></div>
+                    <div class="swiper-button-prev text-yellow-500"></div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer Section -->
+        <footer class="bg-green-950 text-white py-10" data-aos="fade-up">
+            <div class="container">
+                <div class="flex flex-col items-center gap-5 text-center">
+                    <h2 class="text-3xl font-Lobster text-yellow-500">Subscribe to our Newsletter</h2>
+                    <p class="text-slate-200">Get the latest updates and offers.</p>
+                    <form class="w-full max-w-md">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="email" placeholder="Enter your email" class="w-full px-4 py-2 rounded-md text-green-900" required>
+                            <button type="submit" class="btn bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">Subscribe</button>
+                        </div>
+                    </form>
+                    <div class="mt-4 flex space-x-4">
+                        <i class="ri-facebook-fill text-3xl text-blue-600 cursor-pointer social-icon"></i>
+                        <i class="ri-instagram-line text-3xl text-pink-600 cursor-pointer social-icon"></i>
+                        <i class="ri-twitter-fill text-3xl text-blue-400 cursor-pointer social-icon"></i>
+                        <i class="ri-whatsapp-line text-3xl text-green-500 cursor-pointer social-icon"></i>
+                    </div>
+                </div>
+                <div class="mt-10 flex flex-col items-center text-center sm:flex-row sm:justify-between">
+                    <div class="flex flex-col items-center">
+                        <i class="ri-leaf-line text-5xl text-green-500"></i>
+                        <h3 class="text-2xl font-Lobster text-yellow-500 mt-2">Indoor Plants</h3>
+                    </div>
+                    <div class="flex flex-col items-center mt-5 sm:mt-0">
+                        <h3 class="text-2xl font-Lobster text-yellow-500">Quick Links</h3>
+                        <div class="flex flex-col items-center gap-3 mt-5 text-center sm:flex-row sm:justify-center">
+                            <a href="#" class="text-slate-200 hover:text-yellow-500">Gardening</a>
+                            <a href="#" class="text-slate-200 hover:text-yellow-500">Seeds</a>
+                            <a href="#" class="text-slate-200 hover:text-yellow-500">Equipment</a>
+                            <a href="#" class="text-slate-200 hover:text-yellow-500">Shipping</a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-5 sm:mt-0">
+                        <h3 class="text-2xl font-Lobster text-yellow-500">Other Services</h3>
+                        <div class="flex flex-col items-center gap-3 mt-5 text-center sm:flex-row sm:justify-center">
+                            <a href="#" class="text-slate-200 hover:text-yellow-500">Plant Cutting</a>
+                            <a href="#" class="text-slate-200 hover:text-yellow-500">Grass Cutting</a>
+                            <a href="#" class="text-slate-200 hover:text-yellow-500">Tree Control</a>
+                            <a href="#" class="text-slate-200 hover:text-yellow-500">Garden Maintenance</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-10 text-center">
+                    <h3 class="text-2xl font-Lobster text-yellow-500">Contact Us</h3>
+                    <p class="text-slate-200 mt-2">123 Green Street, Plant City, PC 12345</p>
+                    <p class="text-slate-200">Phone: (123) 456-7890</p>
+                    <p class="text-slate-200">Email: info@indoorplants.com</p>
+                </div>
+                <div class="mt-10 text-center">
+                    <p class="text-slate-200">&copy; 2023 Indoor Plants. All rights reserved.</p>
+                    <p class="text-slate-200">Certified by Plant Certification Authority</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <button class="scroll-up" id="scroll-up">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            on: {
+                slideChangeTransitionStart: function () {
+                    let slides = document.querySelectorAll('.swiper-slide');
+                    slides.forEach(slide => {
+                        slide.style.transform = 'scale(1)';
+                    });
+                    let activeSlide = document.querySelector('.swiper-slide-active');
+                    activeSlide.style.transform = 'scale(1.05)';
+                }
+            }
+        });
+
+        // Scroll Up Button
+        const scrollUpButton = document.getElementById('scroll-up');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                scrollUpButton.classList.add('show');
+            } else {
+                scrollUpButton.classList.remove('show');
+            }
+        });
+
+        scrollUpButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
